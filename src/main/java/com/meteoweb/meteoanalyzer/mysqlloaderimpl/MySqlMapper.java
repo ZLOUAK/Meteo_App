@@ -15,7 +15,6 @@ public class MySqlMapper extends TableMapper<Text, Result> {
     public static final byte[] LA = HColumnEnum.SRV_COL_LATITUDE.getColumnName();
     public static final byte[] EL = HColumnEnum.SRV_COL_ELEVATION.getColumnName();
     public static final byte[] CI = HColumnEnum.SRV_COL_CITY.getColumnName();
-    public static String YEAR = FileYear.YEAR;
 
 
     @Override
@@ -42,18 +41,17 @@ public class MySqlMapper extends TableMapper<Text, Result> {
 
         else{
             try  {
-
                 for (int i=1;i<=9;i++){
-                    String key = Bytes.toString(value.getRow())+YEAR+"0"+i;
+                    String key = Bytes.toString(value.getRow())+FileYear.YEAR+"0"+i;
                     context.write(new Text(key),value);
                 }
-                String key = Bytes.toString(value.getRow())+YEAR+"10";
+                String key = Bytes.toString(value.getRow())+FileYear.YEAR+"10";
                 context.write(new Text(key),value);
 
-                String key1 = Bytes.toString(value.getRow())+YEAR+"11";
+                String key1 = Bytes.toString(value.getRow())+FileYear.YEAR+"11";
                 context.write(new Text(key1),value);
 
-                String key2 = Bytes.toString(value.getRow())+YEAR+"12";
+                String key2 = Bytes.toString(value.getRow())+FileYear.YEAR+"12";
                 context.write(new Text(key2),value);
 
             } catch (Exception e) {

@@ -20,8 +20,6 @@ import static javafx.application.Platform.exit;
 public class MeteoWebApplication implements CommandLineRunner {
 
 
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(MeteoWebApplication.class, args);
 	}

@@ -9,7 +9,6 @@ import com.meteoweb.repository.QueryInterface;
 import com.meteoweb.repository.StationInformationRepository;
 import com.meteoweb.service.AService;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
+import org.apache.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,10 +33,10 @@ public class StationInformationController {
     int min =1763;
     int val =0;
     private final static String ROOTPATH = "/home/hadoop/Temperature/";
-
+    private final static String TEMPATH = "/home/hadoop/output/";
+    private final static String TEM1PATH = "/home/hadoop/output1/";
 
     Logger logger = Logger.getLogger(this.getClass());
-
     @Autowired
     private AService aService;
 
@@ -86,35 +84,31 @@ public class StationInformationController {
             }else
             try */
 
+     for (int year=aYear.getStart();year<=aYear.getEnd();year++){
 
-
-      for (int year=aYear.getStart();year<=aYear.getEnd();year++){
-
-          try {
-              if(HbaseFileMain.runHeFileLoader (String.valueOf(year))==0)
-                  try {
-                      if(hbaseMain.runAggregatorHbaseLoader(null)==0)
-                          try {
-                              if(MySqlMain.runMysqlMR(null)==0)
-                                  aService.yearAgregation();
-                                  FileUtils.cleanDirectory(new File(ROOTPATH));
-                          }catch (Exception e) {
-                              e.printStackTrace();
-                              model.addAttribute("result","Failed Mysql Run");
-                              return "DataError";
-                          }
-                  }catch (Exception e) {
-                      e.printStackTrace();
-                      model.addAttribute("result","Failed Agregation Run");
-                      return "DataError";
-                  }
-          }catch (Exception e){
-              e.printStackTrace();
-              return "DataNetErr";
-          }
-
-
-      }
+        try {
+            if(HbaseFileMain.runHeFileLoader (String.valueOf(year))==0)
+                try {
+                    FileUtils.cleanDirectory(new File(ROOTPATH));
+                    if(hbaseMain.runAggregatorHbaseLoader(null)==0)
+                        try {
+                            if(MySqlMain.runMysqlMR(null)==0)
+                                aService.yearAgregation();
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                            model.addAttribute("result","Failed Mysql Run");
+                            return "DataError";
+                        }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    model.addAttribute("result","Failed Agregation Run");
+                    return "DataError";
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+            return "DataNetErr";
+        }
+     }
 
         model.addAttribute("result","SUCCESS Mysql Run");
         return "view";

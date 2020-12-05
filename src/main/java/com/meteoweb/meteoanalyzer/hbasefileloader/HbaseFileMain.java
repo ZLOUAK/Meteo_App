@@ -26,13 +26,13 @@ public class HbaseFileMain {
 
 
         { try (GZIPInputStream gis = new GZIPInputStream(
-                    new FileInputStream(new File(year+".csv.gz").toPath().toFile()))) {
+                new FileInputStream(new File(year+".csv.gz").toPath().toFile()))) {
 
-                Files.copy(gis,new File(ROOTPATH+year+".csv").toPath());
+            Files.copy(gis,new File(ROOTPATH+year+".csv").toPath());
 
-            } catch (
-                    FileAlreadyExistsException e) {
-            }
+        } catch (
+                FileAlreadyExistsException e) {
+        }
         }
     }
 

@@ -2,18 +2,21 @@ package com.meteoweb.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "YearAgregation")
+@IdClass(YearAgregationId.class)
 public class YearAgregation {
 
     @Id
     String id;
 
-    String longitude ;
-
+    @Id
     String date;
+
+    String longitude ;
 
     String city;
 

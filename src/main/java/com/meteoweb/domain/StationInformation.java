@@ -8,25 +8,6 @@ import javax.persistence.Table;
 @Table(name = "StationInformation")
 public class StationInformation {
 
-    @Override
-    public String toString() {
-        return "StationInformation{" +
-                "id='" + id + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", date='" + date + '\'' +
-                ", city='" + city + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", elevation='" + elevation + '\'' +
-                ", tmax='" + tmax + '\'' +
-                ", tmin='" + tmin + '\'' +
-                ", tavg='" + tavg + '\'' +
-                ", perception='" + perception + '\'' +
-                ", tobs='" + tobs + '\'' +
-                ", snwd='" + snwd + '\'' +
-                ", snow='" + snow + '\'' +
-                '}';
-    }
-
     @Id
     String id;
 

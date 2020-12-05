@@ -41,7 +41,7 @@ public class HbaseFilesLoaderDriver extends Configured implements Tool
         config.set("hbase.zookeeper.quorum", "hbase");
         config.set("hbase.zookeeper.property.clientPort", "2181");
         config.set("hbase.master", "hdfs://localhost:9000/");
-        config.set("hbase.table.name", "Cube_Data");
+        config.set("hbase.table.name", "Data_Cube");
         config.set("StationFamily", "SLocation");
         config.set("StationFamily1","STemperature");
         config.set("StationFamily2","SAgregation");
@@ -72,6 +72,15 @@ public class HbaseFilesLoaderDriver extends Configured implements Tool
             result1 = admin.tableExists(TableName.valueOf(config.get("hbase.table.name")));
             if (result1) {
                 System.out.println("Table Exist" + TableName.valueOf(config.get("hbase.table.name")));
+                admin.disableTable(TableName.valueOf(config.get("hbase.table.name")));
+                admin.deleteTable(TableName.valueOf(config.get("hbase.table.name")));
+                HTableDescriptor descriptor = new HTableDescriptor(TableName.valueOf(config.get("hbase.table.name")));
+                descriptor.addFamily(new HColumnDescriptor(config.get("StationFamily")));
+                descriptor.addFamily(new HColumnDescriptor(config.get("StationFamily1")));
+                descriptor.addFamily(new HColumnDescriptor(config.get("StationFamily2")));
+                // descriptor.(HTableDescriptor.)
+                admin.createTable(descriptor);
+                System.out.println("AFTER DELETE ==> Table Created" + TableName.valueOf(config.get("hbase.table.name")));
             } else {
                 HTableDescriptor descriptor = new HTableDescriptor(TableName.valueOf(config.get("hbase.table.name")));
                 descriptor.addFamily(new HColumnDescriptor(config.get("StationFamily")));
@@ -132,19 +141,19 @@ public class HbaseFilesLoaderDriver extends Configured implements Tool
             LoadIncrementalHFiles loader = new LoadIncrementalHFiles(config);
             LoadIncrementalHFiles loaderLocation = new LoadIncrementalHFiles(config);
 
-            loaderLocation.doBulkLoad(hfilePath,admin , table,regionLocator);
-//delete the hfiles
             FileSystem.get(config).delete(hfilePath, true);
             job.waitForCompletion(true);
-
             status = job.isSuccessful() ? 0 : -1;
-
-            loader.doBulkLoad(hfilePath1,admin , table,regionLocator);
+            loaderLocation.doBulkLoad(hfilePath,admin , table,regionLocator);
 //delete the hfiles
+
+
             FileSystem.get(config).delete(hfilePath1, true);
             job1.waitForCompletion(true);
-
             status1 = job1.isSuccessful() ? 0 : -1;
+            loader.doBulkLoad(hfilePath1,admin , table,regionLocator);
+//delete the hfiles
+
 
             return status ==0 ? status1 :-1;
         } finally {
@@ -152,10 +161,6 @@ public class HbaseFilesLoaderDriver extends Configured implements Tool
             connection.close();
         }
     }
-
-
-
-
 
 
     public static List<String> getAllFilePath(Path filePath, FileSystem fs) throws IOException {

@@ -31,7 +31,7 @@ public class TempMapper extends Mapper <LongWritable, Text, ImmutableBytesWritab
     Logger logger = Logger.getLogger(this.getClass().getName());
     static int amount = 0;
 
-@Override
+    @Override
     protected void setup(Context context) {
         Configuration c = context.getConfiguration();
         tableName = c.get("hbase.table.name");
@@ -40,9 +40,9 @@ public class TempMapper extends Mapper <LongWritable, Text, ImmutableBytesWritab
     @Override
     public void map(LongWritable key, Text value, Context context) {
 
-    String[] values;
-    String[] stringValues;
-    StringBuilder stringBuilder = new StringBuilder();
+        String[] values;
+        String[] stringValues;
+        StringBuilder stringBuilder = new StringBuilder();
 
         try {
             values = csvParser.parseLine(value.toString());
@@ -52,68 +52,68 @@ public class TempMapper extends Mapper <LongWritable, Text, ImmutableBytesWritab
             }
             String buildkey = String.valueOf(stringBuilder.append(stringValues[0]).append(stringValues[1]));
             if (stringValues[0] !=null)
-            hKey.set(buildkey.getBytes());
+                hKey.set(buildkey.getBytes());
 
             if (stringValues[1] !=null && !stringValues[1].equals("")) {
 
-        if (stringValues[2] !=null && !stringValues[2].equals("")) {
-          //  logger.info("amount of data is : "+amount++);
+                if (stringValues[2] !=null && !stringValues[2].equals("")) {
+                    //  logger.info("amount of data is : "+amount++);
 
-            if(stringValues[2].equals("PRCP")){
-                Put HPut = new Put(hKey.get());
-                HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                        HColumnEnum.SRV_COL_PERC.getColumnName(), stringValues[3].getBytes());
-                context.write(hKey,HPut);
-            }
+                    if(stringValues[2].equals("PRCP")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_PERC.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-           if(values[2].equals("TMAX")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                        HColumnEnum.SRV_COL_TMAX.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
+                    if(values[2].equals("TMAX")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_TMAX.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
 
-               Put HPutYear = new Put(hKey.get());
-               HPutYear.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                       HColumnEnum.SRV_COL_DATE.getColumnName(), FileYear.YEAR.getBytes());
-               context.write(hKey,HPutYear);
-           }
+                        Put HPutYear = new Put(hKey.get());
+                        HPutYear.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_DATE.getColumnName(), FileYear.YEAR.getBytes());
+                        context.write(hKey,HPutYear);
+                    }
 
-           if(values[2].equals("TMIN")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                        HColumnEnum.SRV_COL_TMIN.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
-           }
+                    if(values[2].equals("TMIN")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_TMIN.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-           if(values[2].equals("TAVG")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                            HColumnEnum.SRV_COL_TAVG.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
-           }
+                    if(values[2].equals("TAVG")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_TAVG.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-           if(values[2].equals("SNOW")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                            HColumnEnum.SRV_COL_SNOW.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
-           }
+                    if(values[2].equals("SNOW")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_SNOW.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-           if(values[2].equals("SNWD")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                            HColumnEnum.SRV_COL_SNWD.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
-           }
+                    if(values[2].equals("SNWD")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_SNWD.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-           if(values[2].equals("TOBS")){
-               Put HPut = new Put(hKey.get());
-               HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
-                            HColumnEnum.SRV_COL_TOBS.getColumnName(), stringValues[3].getBytes());
-               context.write(hKey,HPut);
-           }
+                    if(values[2].equals("TOBS")){
+                        Put HPut = new Put(hKey.get());
+                        HPut.addColumn(HColumnEnum.SRV_COL_FAM1.getColumnName(),
+                                HColumnEnum.SRV_COL_TOBS.getColumnName(), stringValues[3].getBytes());
+                        context.write(hKey,HPut);
+                    }
 
-        }} }catch(Exception e){ e.printStackTrace();}
+                }} }catch(Exception e){ e.printStackTrace();}
 
-        }
+    }
 }

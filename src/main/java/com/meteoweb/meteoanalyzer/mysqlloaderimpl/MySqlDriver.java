@@ -50,8 +50,8 @@ public class MySqlDriver extends Configured implements Tool
                 // reducer class
                 job);
  // at least one, adjust as required
-         job.waitForCompletion(true);
-         status= job.isSuccessful() ? 0 : -1;
+
+         status= job.waitForCompletion(true) ? 0 : -1;
 
         return status;
     }

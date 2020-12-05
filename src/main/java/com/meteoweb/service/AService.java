@@ -2,6 +2,7 @@ package com.meteoweb.service;
 
 import com.meteoweb.domain.StationInformation;
 import com.meteoweb.domain.YearAgregation;
+import com.meteoweb.meteoanalyzer.FileYear;
 import com.meteoweb.repository.StationInformationRepository;
 import com.meteoweb.repository.YearAgregationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AService {
 
     public void yearAgregation(){
 
-        Map<String, List<StationInformation>> sis= repository.findAll().stream()
+        Map<String, List<StationInformation>> sis= repository.findByDateContaining(FileYear.YEAR).stream()
                 .map(e->substringId(e))
         .collect(Collectors.groupingBy(
                 StationInformation::getId
@@ -83,8 +84,7 @@ public class AService {
             if (sis.get(id).get(0).getDate()!=null)
                 yearAgregation.setDate(String.valueOf(sis.get(id).get(0).getDate().substring(0,4)));
 
-            System.out.println(yearAgregation);
-            //yearAgregationRepo.save(yearAgregation);
+            yearAgregationRepo.save(yearAgregation);
 
 
 
@@ -95,11 +95,16 @@ public class AService {
 
 
     private StationInformation substringId(StationInformation stationInformation){
-        stationInformation.setId(
-                stationInformation.getId().substring(0,11)
-        );
 
-        return stationInformation;
+       StationInformation si = new StationInformation();
+       si.setId(stationInformation.getId().substring(0,11));
+       si.setTmax(stationInformation.getTmax());
+       si.setDate(stationInformation.getDate());
+       si.setTmin(stationInformation.getTmin());
+       si.setTavg(stationInformation.getTavg());
+
+
+        return si;
     }
 
 }

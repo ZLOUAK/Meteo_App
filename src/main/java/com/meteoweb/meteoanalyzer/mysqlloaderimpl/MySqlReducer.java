@@ -158,7 +158,6 @@ public class MySqlReducer extends TableReducer<Text, Result, Text> {
                 }
             }
 
-        System.out.println(stationInformation);
         if(stationInformation.getTmax()!=null)
             crudOperations.insertEntity(stationInformation);
     }

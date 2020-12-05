@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class MysqlConfiguration {
 
-    private static Job job;
 
     static private HBaseConfiguration initialize() throws IOException {
 
@@ -18,7 +17,7 @@ public class MysqlConfiguration {
         config.set("hbase.zookeeper.quorum", "hbase");
         config.set("hbase.zookeeper.property.clientPort", "2181");
         config.set("hbase.master", "hdfs://localhost:9000/");
-        config.set("hbase.table.name", "Cube_Data");
+        config.set("hbase.table.name", "Data_Cube");
         config.set("hbase.fs.tmp.dir","/home/Hbase/HFiles");
         config.set("hbase.loadincremental.validate.hfile","false");
         return config;
@@ -26,15 +25,13 @@ public class MysqlConfiguration {
 
     static Job job() throws IOException {
 
-        if(job==null)
-        {
             HBaseConfiguration config = initialize();
 
-            job = new Job(config,"MysqlLoader");
+            Job job = new Job(config,"MysqlLoader");
             job.setMapperClass(MySqlMapper.class);
             // class that contains mapper and reducer
             job.setReducerClass(MySqlReducer.class);
-        }
+
         return job;
     }
 }

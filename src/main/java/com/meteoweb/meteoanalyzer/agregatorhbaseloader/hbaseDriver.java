@@ -1,14 +1,11 @@
 package com.meteoweb.meteoanalyzer.agregatorhbaseloader;
 
-import com.meteoweb.meteoanalyzer.FileYear;
 import com.meteoweb.meteoanalyzer.HColumnEnum;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.GenericOptionsParser;
@@ -26,7 +23,7 @@ public class hbaseDriver extends Configured implements Tool
         config.set("hbase.zookeeper.quorum", "hbase");
         config.set("hbase.zookeeper.property.clientPort", "2181");
         config.set("hbase.master", "hdfs://localhost:9000/");
-        config.set("hbase.table.name", "Cube_Data");
+        config.set("hbase.table.name", "Data_Cube");
         config.set("StationFamily", "SLocation");
         config.set("StationFamily1","STemperature");
         config.set("hbase.fs.tmp.dir","/home/Hbase/HFiles");
@@ -39,13 +36,6 @@ public class hbaseDriver extends Configured implements Tool
         job.setReducerClass(hbaseReducer.class);
         Scan scan = new Scan();
         scan.addFamily(HColumnEnum.SRV_COL_FAM1.getColumnName());
-
-        //SingleColumnValueFilter filter2 =
-               // new SingleColumnValueFilter(CompareFilter.CompareOp.EQUAL,
-                       // new SubstringComparator("substr"));
-
-        //scan.setFilter(filter2);
-
        // scan.setCaching(500);
         scan.setRaw(true);
 // 1 is the default in Scan, which will be bad for MapReduce jobs
