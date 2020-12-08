@@ -14,7 +14,7 @@ public class YearAgregation {
     String id;
 
     @Id
-    String date;
+    String year;
 
     String longitude ;
 
@@ -29,6 +29,12 @@ public class YearAgregation {
     String tmin ;
 
     String tavg ;
+
+    String summax ;
+
+    String summin ;
+
+    String sumavg ;
 
     String perception ;
 
@@ -74,12 +80,36 @@ public class YearAgregation {
 
     public void setCity(String city) { this.city = city; }
 
+    public String getSummax() {
+        return summax;
+    }
+
+    public void setSummax(String summax) {
+        this.summax = summax;
+    }
+
+    public String getSummin() {
+        return summin;
+    }
+
+    public void setSummin(String summin) {
+        this.summin = summin;
+    }
+
+    public String getSumavg() {
+        return sumavg;
+    }
+
+    public void setSumavg(String sumavg) {
+        this.sumavg = sumavg;
+    }
+
     @Override
     public String toString() {
         return "YearAgregation{" +
                 "id='" + id + '\'' +
                 ", longitude='" + longitude + '\'' +
-                ", date='" + date + '\'' +
+                ", year='" + year + '\'' +
                 ", city='" + city + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", elevation='" + elevation + '\'' +
@@ -149,12 +179,12 @@ public class YearAgregation {
         this.snow = snow;
     }
 
-    public String getDate() {
-        return date;
+    public String getYear() {
+        return year;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setYear(String year) {
+        this.year = year;
     }
 
 }

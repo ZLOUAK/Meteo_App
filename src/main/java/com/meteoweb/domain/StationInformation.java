@@ -2,10 +2,12 @@ package com.meteoweb.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "StationInformation")
+@IdClass(StationInformationId.class)
 public class StationInformation {
 
     @Id
@@ -13,7 +15,19 @@ public class StationInformation {
 
     String longitude ;
 
-    String date;
+    @Id
+    String year;
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    @Id
+    String month;
 
     String city;
 
@@ -127,12 +141,12 @@ public class StationInformation {
         this.snow = snow;
     }
 
-    public String getDate() {
-        return date;
+    public String getYear() {
+        return year;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setYear(String year) {
+        this.year = year;
     }
 
 }

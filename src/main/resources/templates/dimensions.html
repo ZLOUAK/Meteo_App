@@ -61,34 +61,87 @@
         </ul>
     </div>
 </nav>
+<br>
 <body class="bg-white text-dark">
+<br>
 <h6 class="text-black" style="text-align:center;font-size:1.2em">
-    Data Generation
+    Data Processing
 </h6>
 <br>
 <h6 class="text-black" style="text-align:left;font-size:1em">
-    This page is reserved for data Generation.
-    <br>
-    Process ex : Choose a year for analysis and click the generation button :
-    <br>
-    The data file related to the year entered will be downloaded, another job will process the file into Hbase table,
-    once it's done the aggregation process will run as second process only if the first job is successful.
-    The final job will centralise the Data from different column family to one mysql table.
+    This page refer to Average Temperature in all station with location information.
     <br>
     Check the Documentation page for Data References
 </h6>
 <br>
+<br>
+<div class="alert alert-primary alert-dismissible" role="alert" style="height:50%">
+    <strong>Data Processing</strong> Data Collection may take few minutes.
+    </strong>Hold on please once the Data retreived you will be able to search Data.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div>
+    <form class="d-flex justify-content-around" action="#" method="post" th:action="@{/dimensions}" th:object="${searchFilter}" >
+            <div th:if="${dimensions1 != null and not #lists.isEmpty(dimensions1)}">
+                <select th:field="*{dimension1}">
+                    <option th:each="dimension : ${dimensions1}"
+                            th:value="${dimension}"
+                            th:text="${dimension}" />
+                </select>
+            </div>
+            <div th:if="${dimensions2 != null and not #lists.isEmpty(dimensions2)}">
+                <select th:field="*{dimension2}">
+                <option th:each="dimension : ${dimensions2}"
+                        th:value="${dimension}"
+                        th:text="${dimension}" />
+            </select>
+        </div>
+        <div th:if="${mesures != null and not #lists.isEmpty(mesures)}">
+            <select th:field="*{agregation}">
+                <option th:each="me : ${mesures}"
+                        th:value="${me}"
+                        th:text="${me}" />
+            </select>
+        </div>
+        <div th:if="${agregations != null and not #lists.isEmpty(agregations)}">
+            <select th:field="*{dimension3}">
+                <option th:each="ag : ${agregations}"
+                        th:value="${ag}"
+                        th:text="${ag}" />
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Search</button>
+    </form>
+</div>
+<br>
 
-<form style="width:20;float:center;margin-center: 30px;margin-top: 30px" action="#"
-      th:action="@{/generate}" th:object="${aYear}" method="post" class="form-inline">
-    <div class="form-group mx-sm-3 mb-2">
-    <label  class="sr-only">Data Generation</label>
-        <input  type="text" class="form-control" th:field="*{start}" id="start" placeholder="Year ex: 1763">
-        <br>
-        <input  type="text" class="form-control" th:field="*{end}" id="end" placeholder="Year ex: 2019">
-    </div>
-    <button type="submit" id="gen-data" class="btn btn-danger mb-2">Generate data</button>
-</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <div>
+            <th scope="col">#</th>
+        </div>
+        <div th:each="row : ${rows}" >
+            <th th:text="${row}"  scope="col">First</th>
+        </div>
+    </tr>
+    </thead>
+    <tbody >
+        <tr th:each="col : ${cols}">
+            <th scope="row" th:text="${col.key}" >1</th>
+            <td  th:each="vals : ${col.value}">
+                <div th:text="${vals.val}" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -101,21 +154,9 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jq-3.3.1/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/cr-1.5.2/fc-3.3.1/fh-3.1.7/kt-2.5.3/r-2.2.6/rg-1.1.2/sc-2.0.3/sb-1.0.0/sp-1.2.1/sl-1.3.1/datatables.js"></script>
 
-<script>
-    $(document).ready( function () {
-    $('#StationInformation').DataTable();
-} );
 
-    $(document).ready(function() {
-    $("#gen-data").click(function() {
-    $(this).prop("disabled", true);
-    $('#img').show();
-    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`);});
-});
-</script>
 </body>
 <br>
-<footer>
 <div class="pos-f-t">
     <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-white p-4">
@@ -163,5 +204,4 @@
         Copyright 2018-2020 BigData & Cloud Computing. All rights reserved
     </h6>
 </div>
-</footer>
 </html>

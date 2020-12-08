@@ -1,9 +1,8 @@
 package com.meteoweb.domain;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 
-public class YearAgregationId implements Serializable {
+public class StationInformationId implements Serializable {
 
     String id;
 
@@ -25,4 +24,13 @@ public class YearAgregationId implements Serializable {
 
     String year;
 
+    String month;
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
 }

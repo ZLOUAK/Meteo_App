@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +24,7 @@ public class AService {
 
     public void yearAgregation(){
 
-        Map<String, List<StationInformation>> sis= repository.findByDateContaining(FileYear.YEAR).stream()
+        Map<String, List<StationInformation>> sis= repository.findByYear(FileYear.YEAR).stream()
                 .map(e->substringId(e))
         .collect(Collectors.groupingBy(
                 StationInformation::getId
@@ -42,9 +40,17 @@ public class AService {
 
             int tMax = tmp.stream()
                     .map(e->Integer.parseInt(e.getTmax()))
+                    .reduce(Integer::max).get();
+
+            int sMax = tmp.stream()
+                    .map(e->Integer.parseInt(e.getTmax()))
                     .reduce(Integer::sum).get();
 
             int tMin = tmp.stream()
+                    .map(e->Integer.parseInt(e.getTmin()))
+                    .reduce(Integer::min).get();
+
+            int sMin = tmp.stream()
                     .map(e->Integer.parseInt(e.getTmin()))
                     .reduce(Integer::sum).get();
 
@@ -53,9 +59,13 @@ public class AService {
                     .reduce(Integer::sum).get();
 
             yearAgregation.setId(id);
-            yearAgregation.setTmax(String.valueOf(tMax/12));
-            yearAgregation.setTmin(String.valueOf(tMin/12));
+            yearAgregation.setTmax(String.valueOf(tMax));
+            yearAgregation.setTmin(String.valueOf(tMin));
             yearAgregation.setTavg(String.valueOf(tAvg/12));
+
+            yearAgregation.setSummax(String.valueOf(sMax));
+            yearAgregation.setSummin(String.valueOf(sMin));
+            yearAgregation.setSumavg(String.valueOf(tAvg));
 
             if (sis.get(id).get(0).getCity()!=null)
                 yearAgregation.setCity(String.valueOf(sis.get(id).get(0).getCity()));
@@ -81,12 +91,10 @@ public class AService {
             if (sis.get(id).get(0).getTobs()!=null)
                 yearAgregation.setTobs(String.valueOf(sis.get(id).get(0).getTobs()));
 
-            if (sis.get(id).get(0).getDate()!=null)
-                yearAgregation.setDate(String.valueOf(sis.get(id).get(0).getDate().substring(0,4)));
+            if (sis.get(id).get(0).getYear()!=null)
+                yearAgregation.setYear(String.valueOf(sis.get(id).get(0).getYear().substring(0,4)));
 
             yearAgregationRepo.save(yearAgregation);
-
-
 
         }
 
@@ -99,10 +107,18 @@ public class AService {
        StationInformation si = new StationInformation();
        si.setId(stationInformation.getId().substring(0,11));
        si.setTmax(stationInformation.getTmax());
-       si.setDate(stationInformation.getDate());
+       si.setYear(stationInformation.getYear());
+       si.setMonth(stationInformation.getMonth());
        si.setTmin(stationInformation.getTmin());
        si.setTavg(stationInformation.getTavg());
-
+       si.setCity(stationInformation.getCity());
+       si.setLatitude(stationInformation.getLatitude());
+       si.setLongitude(stationInformation.getLongitude());
+       si.setElevation(stationInformation.getElevation());
+       si.setTobs(stationInformation.getTobs());
+       si.setSnow(stationInformation.getSnow());
+       si.setSnwd(stationInformation.getSnwd());
+       si.setPerception(stationInformation.getPerception());
 
         return si;
     }

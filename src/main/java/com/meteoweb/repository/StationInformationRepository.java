@@ -9,6 +9,6 @@ public interface StationInformationRepository extends JpaRepository<StationInfor
 
     List<StationInformation> findByIdContaining(String id);
 
-    List<StationInformation> findByDateContaining(String date);
+    List<StationInformation> findByYear(String Year);
 
 }

@@ -31,10 +31,13 @@ public class MySqlReducer extends TableReducer<Text, Result, Text> {
     public void reduce(Text key, Iterable<Result> values, Context context) throws InterruptedException, IOException {
 
         StationInformation stationInformation = new StationInformation();
-        stationInformation.setId(key.toString());
-        stationInformation.setDate(key.toString().substring(11,17));
+        stationInformation.setId(key.toString().substring(0,11));
+        stationInformation.setYear(key.toString().substring(11,15));
+        stationInformation.setMonth(key.toString().substring(11,15)+"_"+key.toString().substring(15,17));
 
-            for (Result val : values){
+
+
+        for (Result val : values){
                     
 
                 if(val.getValue(CFAGREGATION,TMAX)!=null) {
