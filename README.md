@@ -33,16 +33,18 @@ consultation des données.
 /********************************************************Environnement technique*************************************************************************************/
 
 Serveur AIX ou UNIX qui dispose de la configuration suivante :
+
 ==> Système d’exploitation : Linux CentOS 7.
 ==> 16 Go de RAM.
 Les Technologies utilisèes dans ce projet sont : 
-==> Spring Framework
-==> Apache Hadoop
-==> HBase
-==> MySQL
-==> Apache HTTP Server
-==> HTML5
-==> Bootstrap
+
+==> Spring Framework.
+==> Apache Hadoop.
+==> HBase.
+==> MySQL.
+==> Apache HTTP Server.
+==> HTML5.
+==> Bootstrap.
 
 Merci de consulter le repertoire suivant pour la configuration de l'environnement : ZLOUAK/Environnment_Setting
 Après installations et demarrage des services : 
