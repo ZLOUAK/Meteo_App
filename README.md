@@ -5,12 +5,12 @@ L’application : Notre application fait l’étude des températures observées
 L’idée est de pouvoir observer les variations de température en fonction de plusieurs critères et de pouvoir afficher ça, simplement en demande.
 L’utilisateur peut alors entrer des paramètres, quelle observation il veut regarder et avoir en affichage un tableau contenant les informations demandées.
 
-/********************************************************Analyse du besoin**********************************************************************************************/
+/***********************************************************Analyse du besoin*****************************************************************************************/
 
 L’objectif de ce projet ne se résume pas à faire une consultation des données historiques ou massives mais plutôt de fournir à l’utilisateur final un engin capable 
 de traiter et agréger des données volumineuses provenant du site web du gouvernement américain du National Oceanic and Atmospheric Administration « ftp.ncdc.noaa.gov ».
 
-/********************************************************Vue fonctionnelle du système*************************************************************************************/
+/********************************************************Vue fonctionnelle du système*********************************************************************************/
 
 La première étape consiste à filtrer les données récupérer depuis internet.
 
@@ -46,13 +46,13 @@ Les Technologies utilisèes dans ce projet sont :
 
 Merci de consulter le repertoire suivant pour la configuration de l'environnement : ZLOUAK/Environnment_Setting
 Après installations et demarrage des services : 
-==============================================>  Java  <=======================================================
+/*==============================================>Java<=======================================================*/
 --pour 64 bits
 #wget https://github.com/frekele/oracle-java/releases/download/8u212-b10/jdk-8u212-linux-x64.tar.gz     
 #tar zxvf jdk-8u212-linux-x64.tar.gz  ou #tar zxvf jdk-8u212-linux-i586.tar.gz
 #su
 #mv jdk1.8.0_212  /usr/java   --attention au nom du repertoire après décompression
-==============================================> Haddop <=======================================================
+/*==============================================>Haddop<=======================================================*/
 ==>Ajouter groupe hadoop et user hduser
 #groupadd hadoop
 #adduser  -G hadoop hduser
@@ -103,17 +103,18 @@ export JAVA_HOME=/usr/java/
 $ cd $HADOOP_HOME/etc/hadoop
 
 
-Edit core-site.xml___________________________________________________________________________________________
+Edit core-site.xml_____________________________________________________________________
+
 	<configuration>
 	<property>
 	  <name>fs.default.name</name>
 	    <value>hdfs://localhost:9000</value>
 	</property>
-	</configuration
-Edit core-site.xml___________________________________________________________________________________________
+	</configuration>	
+Edit core-site.xml_____________________________________________________________________
 
 
-Edit hdfs-site.xml___________________________________________________________________________________________
+Edit hdfs-site.xml_____________________________________________________________________
 
 	<configuration>
 	<property>
@@ -131,12 +132,11 @@ Edit hdfs-site.xml______________________________________________________________
 	    <value>file:/opt/hadoop/hadoopdata/datanode</value>
 	</property>
 	</configuration>
-Edit hdfs-site.xml___________________________________________________________________________________________
+Edit hdfs-site.xml_____________________________________________________________________________
 
 
 #mv mapred-site.xml.template mapred-site.xml
-
-Edit mapred-site.xml___________________________________________________________________________________________
+Edit mapred-site.xml___________________________________________________________________________
 
 	<configuration>
 	 <property>
@@ -144,9 +144,10 @@ Edit mapred-site.xml____________________________________________________________
 	   <value>yarn</value>
 	 </property>
 	</configuration>
-Edit mapred-site.xml___________________________________________________________________________________________
+Edit mapred-site.xml___________________________________________________________________________
 
-Edit yarn-site.xml___________________________________________________________________________________________
+
+Edit yarn-site.xml_____________________________________________________________________________
 
 	<configuration>
 	 <property>
@@ -154,7 +155,7 @@ Edit yarn-site.xml______________________________________________________________
 	    <value>mapreduce_shuffle</value>
 	 </property>
 	</configuration>
-Edit yarn-site.xml___________________________________________________________________________________________
+Edit yarn-site.xml_____________________________________________________________________________
 
 Formatage du Namenode
 #hdfs namenode -format
@@ -168,7 +169,7 @@ Démmarage des services hdfs et yarn
     --http://localhost:50095
     --http://localhost:8088
     --http://localhost:8042
-==============================================> HBase <=======================================================
+/*==============================================>HBase<=======================================================*/
 --Télécharger HBASE
 #wget http://apache.mirror.gtcomm.net/hbase/stable/hbase-1.4.9-bin.tar.gz
 #tar -zxvf hbase-1.4.9-bin.tar.gz
@@ -185,25 +186,27 @@ export PATH=$PATH:$HBASE_HOME/bin
 --ouvrir le fichier hbase-env.sh et ajouter
 export JAVA_HOME=/usr/java
 
-Edit hbase-site.xml___________________________________________________________________________________________
+
 --ouvrir hbase-site.xml et ajouter le texte
-<configuration>
-   <property>
-      <name>hbase.rootdir</name>
-      <value>hdfs://localhost:9000/hbase</value>
-   </property>
+Edit hbase-site.xml_______________________________________________________________________________
+
+        <configuration>
+         <property>
+                <name>hbase.rootdir</name>
+                <value>hdfs://localhost:9000/hbase</value>
+         </property>
 	
-   <property>
-      <name>hbase.zookeeper.property.dataDir</name>
-      <value>/home/bd2c/zookeeper</value>
-   </property>
+         <property>
+                <name>hbase.zookeeper.property.dataDir</name>
+                <value>/home/bd2c/zookeeper</value>
+         </property>
    
-   <property>
-     <name>hbase.cluster.distributed</name>
-     <value>true</value>
-   </property>
-</configuration>
-Edit hbase-site.xml___________________________________________________________________________________________
+         <property>
+                <name>hbase.cluster.distributed</name>
+                <value>true</value>
+         </property>
+        </configuration>
+Edit hbase-site.xml________________________________________________________________________________
 
 --s'assurer que le dossier de zookeeper est crée
 #sudo mkdir -p /home/bd2c/zookeeper
@@ -223,19 +226,19 @@ hbase(main):0001:0>
 --Commandes de base
 Tapez ces commandes :
 – exit
-==============================================> MySQL <=======================================================
+/*=============================================>MySQL<=======================================================*/
 Telecharger
 #wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
 #sudo rpm -ivh mysql57-community-release-el7-9.noarch.rpm
 #sudo yum install mysql-server
 
-De,arrer  MySQL services 
+Demarrer  MySQL services 
 #sudo systemctl start mysqld
 
 Verifier MySQL services 
 #sudo systemctl status mysqld
 
-/******************************************************** Références *************************************************************************************/
+/********************************************************Références*************************************************************************************/
 
 Références des données.
 ==> Informations relatives aux stations :
